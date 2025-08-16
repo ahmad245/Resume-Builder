@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>محرر السيرة الذاتية - قابل للتعديل</title>
+
+    <!-- Google font Tajawal for Arabic rendering -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #2a6f97;
+            --muted: #6b7280;
+            --bg: #f7fafc;
+            --card: #fff;
+            --accent: #eef2ff;
+            --skill-color: #4338ca;
+            --badge-bg: #eef6f9;
+            --badge-color: #065f7a;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Tajawal', sans-serif
+        }
+
+        body {
+            margin: 0;
+            padding: 18px;
+            background: var(--bg);
+            color: #111;
+        }
+
+        /* layout */
+        .topbar {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 14px;
+        }
+
+        .left-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 0;
+            cursor: pointer;
+            background: var(--primary);
+            color: #fff;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .btn.secondary {
+            background: #fff;
+            color: var(--primary);
+            border: 1px solid rgba(0, 0, 0, 0.08)
+        }
+
+        .btn.ghost {
+            background: transparent;
+            color: var(--primary);
+            border: 1px dashed rgba(0, 0, 0, 0.06)
+        }
+
+        /* main container */
+        .wrap {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .editor {
+            width: 360px;
+            background: var(--card);
+            padding: 18px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+            height: calc(100vh - 80px);
+            overflow: auto;
+            position: sticky;
+            top: 18px;
+        }
+
+        .preview {
+            flex: 1;
+            min-width: 0;
+        }
+
+        /* CV card (print area) */
+        .cv-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--card);
+            padding: 44px;
+            border-radius: 12px;
+            border: 1px solid #eee;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+            direction: rtl;
+        }
+
+        .cv-header {
+            text-align: center;
+            margin-bottom: 18px
+        }
+
+        .cv-header h1 {
+            font-size: 40px;
+            margin: 0;
+            color: #111
+        }
+
+        .cv-header .job {
+            color: var(--primary);
+            font-weight: 600;
+            margin-top: 6px
+        }
+
+        .contact {
+            display: flex;
+            justify-content: center;
+            gap: 18px;
+            margin-top: 12px;
+            color: var(--muted);
+            flex-wrap: wrap
+        }
+
+        .contact span {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px
+        }
+
+        .section {
+            margin-top: 18px
+        }
+
+        .section .title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px
+        }
+
+        .section .title h3 {
+            margin: 0;
+            color: #111;
+            font-size: 18px
+        }
+
+        .line {
+            flex: 1;
+            height: 2px;
+            background: #f3f4f6;
+            border-radius: 2px
+        }
+
+        .profile {
+            font-size: 15px;
+            line-height: 1.7;
+            color: var(--muted);
+            text-align: justify
+        }
+
+        /* skills */
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            list-style: none;
+            padding: 0;
+            margin: 0
+        }
+
+        .skill {
+            background: var(--accent);
+            color: var(--skill-color);
+            padding: 7px 12px;
+            border-radius: 20px;
+            font-weight: 400;
+            display: inline-flex;
+            gap: 8px;
+            align-items: center
+        }
+
+        .skill i {
+            cursor: pointer
+        }
+
+        /* languages */
+        .lang-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 0;
+            margin: 0;
+            list-style: none
+        }
+
+        .lang-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 18px;
+            background: var(--badge-bg);
+            color: var(--badge-color);
+            font-weight: 600;
+            border: 1px solid rgba(6, 95, 122, 0.06)
+        }
+
+        .lang-level {
+            font-size: 12px;
+            padding: 4px 8px;
+            border-radius: 12px;
+            background: rgba(6, 95, 122, 0.08);
+            color: var(--badge-color);
+            font-weight: 600
+        }
+
+        .lang-item i {
+            cursor: pointer
+        }
+
+        /* experience/education entries */
+        .entry {
+            display: flex;
+            gap: 18px;
+            margin-bottom: 16px;
+            align-items: flex-start
+        }
+
+        .entry-meta {
+            width: 150px;
+            text-align: left
+        }
+
+        .entry-meta .date {
+            font-weight: 600;
+            color: #111
+        }
+
+        .entry-meta .company {
+            color: var(--muted);
+            margin-top: 6px
+        }
+
+        .entry-content h4 {
+            margin: 0;
+            font-size: 16px
+        }
+
+        .entry-content p {
+            margin: 6px 0 0 0;
+            color: var(--muted);
+            line-height: 1.6
+        }
+
+        /* editor styles */
+        h4 small {
+            color: var(--muted);
+            font-weight: 400
+        }
+
+        .form-group {
+            margin-bottom: 12px
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600
+        }
+
+        .form-group input,
+        .form-group textarea,
+        select {
+            width: 100%;
+            padding: 8px;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+            font-size: 14px
+        }
+
+        textarea {
+            min-height: 72px;
+            resize: vertical
+        }
+
+        .inline {
+            display: flex;
+            gap: 8px
+        }
+
+        .small {
+            font-size: 13px;
+            color: var(--muted)
+        }
+
+        .list-block {
+            background: #fbfdff;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #f0f6fb;
+            margin-bottom: 12px
+        }
+
+        .list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px;
+            border-radius: 6px
+        }
+
+        .list-item+.list-item {
+            margin-top: 6px
+        }
+
+        .list-item .meta {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end
+        }
+
+        .list-item .actions {
+            display: flex;
+            gap: 6px
+        }
+
+        /* small controls */
+        .icon-btn {
+            background: transparent;
+            border: 0;
+            cursor: pointer;
+            padding: 6px;
+            border-radius: 6px
+        }
+
+        .icon-btn:hover {
+            background: rgba(0, 0, 0, 0.04)
+        }
+
+        /* import/export area */
+        .io {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            margin-top: 8px
+        }
+
+        /* responsive */
+        @media (max-width:980px) {
+            .wrap {
+                flex-direction: column;
+                padding: 0 14px
+            }
+
+            .editor {
+                width: 100%;
+                height: auto;
+                position: relative
+            }
+        }
+
+        /* Hide preview delete icons by default and show on hover; never show in print */
+        .cv-container .skill i,
+        .cv-container .lang-item i {
+            opacity: 0;
+            transition: opacity 0.15s ease;
+            pointer-events: none;
+        }
+
+        .cv-container .skill:hover i,
+        .cv-container .lang-item:hover i {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        @media print {
+
+            .cv-container .skill i,
+            .cv-container .lang-item i {
+                display: none !important;
+            }
+        }
+
+        /* print hide editor */
+        @media print {
+            body {
+                background: #fff
+            }
+
+            .editor,
+            .topbar {
+                display: none
+            }
+
+            .cv-container {
+                box-shadow: none;
+                border-radius: 0;
+                padding: 20px
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="topbar">
+        <div class="left-actions">
+            <button id="toggle-editor" class="btn secondary"><i class="fa-solid fa-pen"></i> تحرير</button>
+            <button id="save-local" class="btn ghost" title="حفظ تلقائي ويدوي"><i class="fa-regular fa-floppy-disk"></i>
+                حفظ</button>
+            <button id="export-json" class="btn secondary"><i class="fa-solid fa-file-export"></i> تصدير JSON</button>
+            <label class="btn secondary" style="cursor:pointer">
+                <i class="fa-solid fa-file-import"></i> استيراد
+                <input id="import-file" type="file" accept="application/json" style="display:none">
+            </label>
+        </div>
+
+        <div>
+            <button id="download-pdf" class="btn"><i class="fa-solid fa-download"></i> تنزيل PDF</button>
+        </div>
+    </div>
+
+    <div class="wrap">
+        <!-- Editor Sidebar -->
+        <aside class="editor" id="editor" aria-label="محرر السيرة الذاتية">
+            <h2 style="margin-top:0">محرر السيرة الذاتية (Ahmad Almasri)</h2>
+
+            <!-- Header fields -->
+            <div class="form-section">
+                <h4>البيانات الشخصية</h4>
+                <div class="form-group">
+                    <label>الاسم الكامل</label>
+                    <input id="inp-name" type="text">
+                </div>
+                <div class="form-group">
+                    <label>المسمى الوظيفي</label>
+                    <input id="inp-job" type="text">
+                </div>
+                <div class="form-group inline">
+                    <div style="flex:1">
+                        <label>الموقع</label>
+                        <input id="inp-location" type="text">
+                    </div>
+                    <div style="flex:1">
+                        <label>الهاتف</label>
+                        <input id="inp-phone" type="text">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>البريد الإلكتروني</label>
+                    <input id="inp-email" type="email">
+                </div>
+            </div>
+
+            <hr>
+
+            <!-- Profile -->
+            <div class="form-section">
+                <h4>ملف شخصي</h4>
+                <div class="form-group">
+                    <label>نبذة تعريفية</label>
+                    <textarea id="inp-profile"></textarea>
+                </div>
+            </div>
+
+            <hr>
+
+            <!-- Skills -->
+            <div class="form-section">
+                <h4>المهارات <small class="small">أضف/احذف/عدل</small></h4>
+                <div class="form-group inline">
+                    <input id="skill-input" placeholder="أضف مهارة ثم اضغط +">
+                    <button id="add-skill" class="btn secondary" style="white-space:nowrap">+</button>
+                </div>
+                <div id="skills-list" class="list-block" aria-live="polite"></div>
+            </div>
+
+            <hr>
+
+            <!-- Languages -->
+            <div class="form-section">
+                <h4>اللغات <small class="small">أضف اللغة ومستوى الإتقان</small></h4>
+                <div class="form-group inline">
+                    <input id="lang-input" placeholder="اللغة (مثال: العربية)" style="flex:1">
+                    <select id="lang-level" style="width:140px">
+                        <option value="متحدث أصلي">متحدث أصلي</option>
+                        <option value="بطلاقة">بطلاقة</option>
+                        <option value="متوسط">متوسط</option>
+                        <option value="أساسي">أساسي</option>
+                    </select>
+                </div>
+                <div style="display:flex;gap:8px;margin-top:8px">
+                    <button id="add-lang" class="btn secondary">أضف</button>
+                    <button id="clear-langs" class="btn ghost">مسح اللغات</button>
+                </div>
+                <div id="languages-list" class="list-block" aria-live="polite" style="margin-top:10px"></div>
+            </div>
+
+            <hr>
+
+            <!-- Experience -->
+            <div class="form-section">
+                <h4>الخبرة المهنية <small class="small">أضف تواريخ/من - إلى/الشركة/الوظيفة/الوصف</small></h4>
+                <div id="experience-list" class="list-block"></div>
+                <button id="add-experience" class="btn" style="width:100%;margin-top:6px"><i
+                        class="fa-solid fa-plus"></i> إضافة خبرة جديدة</button>
+            </div>
+
+            <hr>
+
+            <!-- Education -->
+            <div class="form-section">
+                <h4>المؤهل الدراسي</h4>
+                <div id="education-list" class="list-block"></div>
+                <button id="add-education" class="btn" style="width:100%;margin-top:6px"><i
+                        class="fa-solid fa-plus"></i> إضافة مؤهل جديد</button>
+            </div>
+
+            <hr>
+
+            <div style="display:flex;gap:8px;justify-content:space-between;align-items:center">
+                <small class="small">التغييرات تحفظ تلقائياً في المتصفح</small>
+                <div>
+                    <button id="reset-sample" class="btn secondary">إعادة تعيين للعينة</button>
+                    <button id="clear-local" class="btn ghost">مسح البيانات</button>
+                </div>
+            </div>
+
+        </aside>
+
+        <!-- Preview / printable CV -->
+        <main class="preview">
+            <div class="cv-container" id="cv-to-print" aria-label="معاينة السيرة الذاتية">
+                <header class="cv-header">
+                    <h1 id="cv-name">صلاح الدين الدباغ</h1>
+                    <div class="job" id="cv-job">محاماة (تدريب) متخصص في القانون الدولي</div>
+                    <div class="contact" style="margin-top:12px">
+                        <span><i class="fa-solid fa-location-dot"></i> <span id="cv-location">نانسي, 54500</span></span>
+                        <span><i class="fa-solid fa-phone"></i> <span id="cv-phone"
+                                class="ltr">+33753840421</span></span>
+                        <span><i class="fa-solid fa-envelope"></i> <span id="cv-email"
+                                class="ltr">Salah91sy@gmail.com</span></span>
+                    </div>
+                </header>
+
+                <section class="section profile">
+                    <div class="title">
+                        <h3>الملف الشخصي</h3>
+                        <div class="line"></div>
+                    </div>
+                    <div class="profile" id="cv-profile">
+                        محامٍ متدرب شغوف ومجتهد، أتممت دراسة الحقوق وأمتلك خبرة عملية في مكاتب محاماة متنوعة. أسعى
+                        لتطبيق معرفتي القانونية ومهاراتي في البحث والتحليل للمساهمة في تحقيق العدالة ودعم فريق العمل في
+                        بيئة قانونية مليئة بالتحديات.
+                    </div>
+                </section>
+
+                <section class="section skills" style="margin-top:18px">
+                    <div class="title">
+                        <h3>المهارات</h3>
+                        <div class="line"></div>
+                    </div>
+                    <ul class="skills-list" id="cv-skills"></ul>
+                </section>
+
+                <section class="section languages" style="margin-top:18px">
+                    <div class="title">
+                        <h3>اللغات</h3>
+                        <div class="line"></div>
+                    </div>
+                    <div id="cv-languages" style="display:flex;gap:8px;flex-wrap:wrap"></div>
+                </section>
+
+                <section class="section experience">
+                    <div class="title">
+                        <h3>الخبرة المهنية</h3>
+                        <div class="line"></div>
+                    </div>
+                    <div id="cv-experience"></div>
+                </section>
+
+                <section class="section education">
+                    <div class="title">
+                        <h3>المؤهل الدراسي</h3>
+                        <div class="line"></div>
+                    </div>
+                    <div id="cv-education"></div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- html2pdf for download -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <script>
+        /*******************************
+         * Data model & persistence
+         *******************************/
+        const STORAGE_KEY = 'cvData_v2';
+
+        const sampleData = {
+            name: "صلاح الدين الدباغ",
+            job: "محاماة (تدريب) متخصص في القانون الدولي",
+            location: "نانسي, 54500",
+            phone: "+33753840421",
+            email: "Salah91sy@gmail.com",
+            profile: "محامٍ متدرب شغوف ومجتهد، أتممت دراسة الحقوق وأمتلك خبرة عملية في مكاتب محاماة متنوعة. أسعى لتطبيق معرفتي القانونية ومهاراتي في البحث والتحليل للمساهمة في تحقيق العدالة ودعم فريق العمل في بيئة قانونية مليئة بالتحديات.",
+            skills: [
+                "القانون الدولي الإنساني",
+                "حقوق الإنسان",
+                "البحث القانوني",
+                "صياغة المذكرات",
+                "العلاقات العامة",
+                "التسويق"
+            ],
+            languages: [
+                { name: "العربية", level: "متحدث أصلي" },
+                { name: "الفرنسية", level: "بطلاقة" },
+                { name: "الإنجليزية", level: "متوسط" }
+            ],
+            experience: [
+                { from: "يناير ٢٠٢١", to: "يناير ٢٠٢٢", company: "EÇER HUKUK", title: "محاماة (تدريب)", description: "ممارسة وتطبيق الإجراءات القانونية في مختلف القضايا، مع التركيز على البحث وإعداد المستندات." },
+                { from: "يناير ٢٠٢١", to: "ديسمبر ٢٠٢١", company: "TABUR HUKUK", title: "محامي متدرب", description: "المساعدة في إدارة القضايا اليومية، والتواصل مع العملاء، وحضور جلسات المحكمة." },
+                { from: "يناير ٢٠١٩", to: "يناير ٢٠٢٥", company: "شركة Four Seasons للدعاية", title: "تسويق وعلاقات عامة", description: "تطوير وإدارة الحملات التسويقية وبناء علاقات إيجابية مع العملاء والشركاء." }
+            ],
+            education: [
+                { date: "", institution: "Hasan Kalyoncu University", city: "غازي عنتاب", degree: "كلية الحقوق", description: "" },
+                { date: "2013", institution: "جامعة حمص", city: "حمص", degree: "كلية الحقوق - سنة أولى", description: "" }
+            ]
+        };
+
+        let data = loadData();
+
+        // load from localStorage or fallback to sample
+        function loadData() {
+            try {
+                const raw = localStorage.getItem(STORAGE_KEY);
+                if (raw) return JSON.parse(raw);
+            } catch (e) { }
+            return JSON.parse(JSON.stringify(sampleData));
+        }
+
+        function saveData() {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+                flashSaveBtn();
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        function clearData() {
+            localStorage.removeItem(STORAGE_KEY);
+            data = JSON.parse(JSON.stringify(sampleData));
+            renderAll();
+        }
+
+        function resetToSample() {
+            data = JSON.parse(JSON.stringify(sampleData));
+            saveData();
+            renderAll();
+        }
+
+        /*******************************
+         * Rendering functions
+         *******************************/
+        // top-level render
+        function renderAll() {
+            // header
+            document.getElementById('cv-name').textContent = data.name || '';
+            document.getElementById('cv-job').textContent = data.job || '';
+            document.getElementById('cv-location').textContent = data.location || '';
+            document.getElementById('cv-phone').textContent = data.phone || '';
+            document.getElementById('cv-email').textContent = data.email || '';
+
+            // profile
+            document.getElementById('cv-profile').textContent = data.profile || '';
+
+            // skills
+            const skList = document.getElementById('cv-skills');
+            skList.innerHTML = '';
+            data.skills.forEach((s, idx) => {
+                const li = document.createElement('li');
+                li.className = 'skill';
+                li.innerHTML = `<span>${escapeHtml(s)}</span>
+          <i title="حذف" class="fa-solid fa-xmark" data-action="remove-skill" data-idx="${idx}"></i>`;
+                skList.appendChild(li);
+            });
+
+            // languages (preview)
+            const langRoot = document.getElementById('cv-languages');
+            langRoot.innerHTML = '';
+            data.languages.forEach((l, idx) => {
+                const span = document.createElement('div');
+                span.className = 'lang-item';
+                span.innerHTML = `<span>${escapeHtml(l.name)}</span> <span class="lang-level">${escapeHtml(l.level)}</span>
+          <i title="حذف" class="fa-solid fa-xmark" data-action="remove-lang" data-idx="${idx}"></i>`;
+                langRoot.appendChild(span);
+            });
+
+            // experience
+            const exRoot = document.getElementById('cv-experience');
+            exRoot.innerHTML = '';
+            data.experience.forEach((ex, i) => {
+                const div = document.createElement('div');
+                div.className = 'entry';
+                div.innerHTML = `
+          <div class="entry-meta">
+            <div class="date">${escapeHtml(ex.from || '')}${ex.to ? ' - ' + escapeHtml(ex.to) : ''}</div>
+            <div class="company"><span class="ltr">${escapeHtml(ex.company || '')}</span></div>
+          </div>
+          <div class="entry-content">
+            <h4>${escapeHtml(ex.title || '')}</h4>
+            <p class="description">${escapeHtml(ex.description || '')}</p>
+          </div>
+        `;
+                exRoot.appendChild(div);
+            });
+
+            // education
+            const edRoot = document.getElementById('cv-education');
+            edRoot.innerHTML = '';
+            data.education.forEach(ed => {
+                const div = document.createElement('div');
+                div.className = 'entry';
+                div.innerHTML = `
+          <div class="entry-meta">
+            <div class="date">${escapeHtml(ed.date || '')}</div>
+            <div class="company">${escapeHtml(ed.city || '')}</div>
+          </div>
+          <div class="entry-content">
+            <h4>${escapeHtml(ed.degree || '')}</h4>
+            <p class="description">${escapeHtml(ed.institution || '')} ${ed.description ? '- ' + escapeHtml(ed.description) : ''}</p>
+          </div>
+        `;
+                edRoot.appendChild(div);
+            });
+
+            // populate editor fields
+            populateEditor();
+        }
+
+        // escape helper
+        function escapeHtml(s) { if (!s && s !== 0) return ''; return String(s).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;'); }
+
+        /*******************************
+         * Editor UI functions
+         *******************************/
+        const editor = document.getElementById('editor');
+        const toggleEditorBtn = document.getElementById('toggle-editor');
+
+        toggleEditorBtn.addEventListener('click', () => {
+            if (editor.style.display === 'none' || getComputedStyle(editor).display === 'none') {
+                editor.style.display = 'block';
+                toggleEditorBtn.innerHTML = '<i class="fa-solid fa-eye"></i> معاينة فقط';
+            } else {
+                editor.style.display = 'none';
+                toggleEditorBtn.innerHTML = '<i class="fa-solid fa-pen"></i> تحرير';
+            }
+        });
+
+        // header inputs
+        const inpName = document.getElementById('inp-name');
+        const inpJob = document.getElementById('inp-job');
+        const inpLocation = document.getElementById('inp-location');
+        const inpPhone = document.getElementById('inp-phone');
+        const inpEmail = document.getElementById('inp-email');
+        const inpProfile = document.getElementById('inp-profile');
+
+        function populateEditor() {
+            inpName.value = data.name || '';
+            inpJob.value = data.job || '';
+            inpLocation.value = data.location || '';
+            inpPhone.value = data.phone || '';
+            inpEmail.value = data.email || '';
+            inpProfile.value = data.profile || '';
+
+            // skills list
+            renderEditorSkills();
+
+            // languages list
+            renderEditorLanguages();
+
+            // experience list
+            renderEditorExperience();
+
+            // education list
+            renderEditorEducation();
+        }
+
+        // live update when header/profile fields change
+        [inpName, inpJob, inpLocation, inpPhone, inpEmail, inpProfile].forEach(el => {
+            el.addEventListener('input', () => {
+                data.name = inpName.value;
+                data.job = inpJob.value;
+                data.location = inpLocation.value;
+                data.phone = inpPhone.value;
+                data.email = inpEmail.value;
+                data.profile = inpProfile.value;
+                renderAll();
+                saveData();
+            });
+        });
+
+        /******** Skills editor ********/
+        const skillInput = document.getElementById('skill-input');
+        const addSkillBtn = document.getElementById('add-skill');
+        const skillsEditorRoot = document.getElementById('skills-list');
+
+        function renderEditorSkills() {
+            skillsEditorRoot.innerHTML = '';
+            data.skills.forEach((s, idx) => {
+                const div = document.createElement('div');
+                div.className = 'list-item';
+                div.innerHTML = `
+          <div style="display:flex;gap:8px;align-items:center">
+            <div class="meta"><strong>${escapeHtml(s)}</strong></div>
+          </div>
+          <div class="actions">
+            <button class="icon-btn" data-action="edit-skill" data-idx="${idx}" title="تعديل"><i class="fa-solid fa-pen"></i></button>
+            <button class="icon-btn" data-action="remove-skill" data-idx="${idx}" title="حذف"><i class="fa-solid fa-trash"></i></button>
+          </div>
+        `;
+                skillsEditorRoot.appendChild(div);
+            });
+        }
+
+        addSkillBtn.addEventListener('click', () => {
+            const val = (skillInput.value || '').trim();
+            if (!val) return;
+            data.skills.push(val);
+            skillInput.value = '';
+            renderEditorSkills();
+            renderAll();
+            saveData();
+        });
+
+        skillInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') { e.preventDefault(); addSkillBtn.click(); }
+        });
+
+        // delegate skill edit/remove
+        skillsEditorRoot.addEventListener('click', (ev) => {
+            const btn = ev.target.closest('button');
+            if (!btn) return;
+            const action = btn.dataset.action;
+            const idx = Number(btn.dataset.idx);
+            if (action === 'remove-skill') {
+                if (!isNaN(idx)) {
+                    data.skills.splice(idx, 1);
+                    renderEditorSkills(); renderAll(); saveData();
+                }
+            } else if (action === 'edit-skill') {
+                const newVal = prompt('عدل اسم المهارة:', data.skills[idx]);
+                if (newVal !== null) {
+                    data.skills[idx] = newVal.trim();
+                    renderEditorSkills(); renderAll(); saveData();
+                }
+            }
+        });
+
+        // allow removing skill from preview (x icon)
+        document.getElementById('cv-skills').addEventListener('click', (e) => {
+            const btn = e.target.closest('[data-action]');
+            if (!btn) return;
+            const action = btn.dataset.action;
+            const idx = Number(btn.dataset.idx);
+            if (action === 'remove-skill' && !isNaN(idx)) {
+                if (confirm('حذف هذه المهارة؟')) { data.skills.splice(idx, 1); renderEditorSkills(); renderAll(); saveData(); }
+            }
+        });
+
+        /******** Languages editor ********/
+        const langInput = document.getElementById('lang-input');
+        const langLevel = document.getElementById('lang-level');
+        const addLangBtn = document.getElementById('add-lang');
+        const clearLangsBtn = document.getElementById('clear-langs');
+        const languagesEditorRoot = document.getElementById('languages-list');
+
+        function renderEditorLanguages() {
+            languagesEditorRoot.innerHTML = '';
+            data.languages.forEach((l, idx) => {
+                const div = document.createElement('div');
+                div.className = 'list-item';
+                div.innerHTML = `
+          <div style="display:flex;flex-direction:column;align-items:flex-end">
+            <strong>${escapeHtml(l.name)}</strong>
+            <div class="small">${escapeHtml(l.level)}</div>
+          </div>
+          <div class="actions">
+            <button class="icon-btn" data-action="edit-lang" data-idx="${idx}" title="تعديل"><i class="fa-solid fa-pen"></i></button>
+            <button class="icon-btn" data-action="remove-lang" data-idx="${idx}" title="حذف"><i class="fa-solid fa-trash"></i></button>
+          </div>
+        `;
+                languagesEditorRoot.appendChild(div);
+            });
+        }
+
+        addLangBtn.addEventListener('click', () => {
+            const name = (langInput.value || '').trim();
+            const level = (langLevel.value || '').trim();
+            if (!name) return;
+            data.languages.push({ name, level });
+            langInput.value = '';
+            langLevel.value = 'متحدث أصلي';
+            renderEditorLanguages();
+            renderAll();
+            saveData();
+        });
+
+        langInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') { e.preventDefault(); addLangBtn.click(); }
+        });
+
+        clearLangsBtn.addEventListener('click', () => {
+            if (confirm('حذف جميع اللغات؟')) {
+                data.languages = [];
+                renderEditorLanguages();
+                renderAll();
+                saveData();
+            }
+        });
+
+        // delegate languages edit/remove
+        languagesEditorRoot.addEventListener('click', (ev) => {
+            const btn = ev.target.closest('button');
+            if (!btn) return;
+            const action = btn.dataset.action;
+            const idx = Number(btn.dataset.idx);
+            if (action === 'remove-lang') {
+                if (confirm('حذف هذه اللغة؟')) { data.languages.splice(idx, 1); renderEditorLanguages(); renderAll(); saveData(); }
+            } else if (action === 'edit-lang') {
+                editLanguage(idx);
+            }
+        });
+
+        // preview removal (hidden until hover)
+        document.getElementById('cv-languages').addEventListener('click', (e) => {
+            const btn = e.target.closest('[data-action]');
+            if (!btn) return;
+            const action = btn.dataset.action;
+            const idx = Number(btn.dataset.idx);
+            if (action === 'remove-lang' && !isNaN(idx)) {
+                if (confirm('حذف هذه اللغة؟')) { data.languages.splice(idx, 1); renderEditorLanguages(); renderAll(); saveData(); }
+            }
+        });
+
+        function editLanguage(idx) {
+            const l = data.languages[idx];
+            if (!l) return;
+            const name = prompt('اسم اللغة:', l.name || '');
+            if (name === null) return;
+            const level = prompt('المستوى (متحدث أصلي / بطلاقة / متوسط / أساسي):', l.level || 'متوسط');
+            if (level === null) return;
+            data.languages[idx] = { name: name.trim(), level: level.trim() };
+            renderEditorLanguages(); renderAll(); saveData();
+        }
+
+        /******** Experience editor ********/
+        const experienceRoot = document.getElementById('experience-list');
+        const addExperienceBtn = document.getElementById('add-experience');
+
+        function renderEditorExperience() {
+            experienceRoot.innerHTML = '';
+            data.experience.forEach((ex, idx) => {
+                const block = document.createElement('div');
+                block.className = 'list-item';
+                block.innerHTML = `
+          <div style="flex:1">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div style="text-align:left">
+                <div style="font-weight:700">${escapeHtml(ex.title || '—')}</div>
+                <div class="small">${escapeHtml(ex.company || '')}</div>
+              </div>
+              <div class="meta" style="text-align:right">
+                <div class="small">${escapeHtml(ex.from || '')}${ex.to ? ' - ' + escapeHtml(ex.to) : ''}</div>
+              </div>
+            </div>
+            <div style="margin-top:6px;color:var(--muted)">${escapeHtml(ex.description || '')}</div>
+          </div>
+          <div class="actions" style="flex:0">
+            <button class="icon-btn" data-action="edit-exp" data-idx="${idx}" title="تعديل"><i class="fa-solid fa-pen"></i></button>
+            <button class="icon-btn" data-action="remove-exp" data-idx="${idx}" title="حذف"><i class="fa-solid fa-trash"></i></button>
+          </div>
+        `;
+                experienceRoot.appendChild(block);
+            });
+        }
+
+        addExperienceBtn.addEventListener('click', () => {
+            const newEx = { from: '', to: '', company: '', title: '', description: '' };
+            data.experience.push(newEx);
+            renderEditorExperience();
+            renderAll();
+            saveData();
+            editExperience(data.experience.length - 1);
+        });
+
+        experienceRoot.addEventListener('click', (e) => {
+            const btn = e.target.closest('button');
+            if (!btn) return;
+            const action = btn.dataset.action;
+            const idx = Number(btn.dataset.idx);
+            if (action === 'remove-exp') {
+                if (confirm('حذف هذه الخبرة؟')) { data.experience.splice(idx, 1); renderEditorExperience(); renderAll(); saveData(); }
+            } else if (action === 'edit-exp') {
+                editExperience(idx);
+            }
+        });
+
+        function editExperience(idx) {
+            const ex = data.experience[idx];
+            if (!ex) return;
+            const from = prompt('من (التاريخ أو السنة):', ex.from || '');
+            if (from === null) return;
+            const to = prompt('إلى (التاريخ أو السنة) - اتركه فارغًا إن كان مستمراً:', ex.to || '');
+            if (to === null) return;
+            const company = prompt('اسم الشركة/المؤسسة:', ex.company || '');
+            if (company === null) return;
+            const title = prompt('المسمى الوظيفي:', ex.title || '');
+            if (title === null) return;
+            const description = prompt('الوصف المختصر للدور:', ex.description || '');
+            if (description === null) return;
+
+            data.experience[idx] = { from: from.trim(), to: to.trim(), company: company.trim(), title: title.trim(), description: description.trim() };
+            renderEditorExperience(); renderAll(); saveData();
+        }
+
+        /******** Education editor ********/
+        const educationRoot = document.getElementById('education-list');
+        const addEducationBtn = document.getElementById('add-education');
+
+        function renderEditorEducation() {
+            educationRoot.innerHTML = '';
+            data.education.forEach((ed, idx) => {
+                const block = document.createElement('div');
+                block.className = 'list-item';
+                block.innerHTML = `
+          <div style="flex:1">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div style="text-align:left">
+                <div style="font-weight:700">${escapeHtml(ed.degree || '—')}</div>
+                <div class="small">${escapeHtml(ed.institution || '')}</div>
+              </div>
+              <div class="meta" style="text-align:right">
+                <div class="small">${escapeHtml(ed.date || '')}</div>
+                <div class="small">${escapeHtml(ed.city || '')}</div>
+              </div>
+            </div>
+            <div style="margin-top:6px;color:var(--muted)">${escapeHtml(ed.description || '')}</div>
+          </div>
+          <div class="actions" style="flex:0">
+            <button class="icon-btn" data-action="edit-ed" data-idx="${idx}" title="تعديل"><i class="fa-solid fa-pen"></i></button>
+            <button class="icon-btn" data-action="remove-ed" data-idx="${idx}" title="حذف"><i class="fa-solid fa-trash"></i></button>
+          </div>
+        `;
+                educationRoot.appendChild(block);
+            });
+        }
+
+        addEducationBtn.addEventListener('click', () => {
+            data.education.push({ date: '', institution: '', city: '', degree: '', description: '' });
+            renderEditorEducation(); renderAll(); saveData();
+            editEducation(data.education.length - 1);
+        });
+
+        educationRoot.addEventListener('click', (e) => {
+            const btn = e.target.closest('button');
+            if (!btn) return;
+            const action = btn.dataset.action;
+            const idx = Number(btn.dataset.idx);
+            if (action === 'remove-ed') {
+                if (confirm('حذف هذا المؤهل؟')) { data.education.splice(idx, 1); renderEditorEducation(); renderAll(); saveData(); }
+            } else if (action === 'edit-ed') {
+                editEducation(idx);
+            }
+        });
+
+        function editEducation(idx) {
+            const ed = data.education[idx];
+            if (!ed) return;
+            const date = prompt('التاريخ / السنة:', ed.date || '');
+            if (date === null) return;
+            const city = prompt('المدينة:', ed.city || '');
+            if (city === null) return;
+            const institution = prompt('اسم المؤسسة:', ed.institution || '');
+            if (institution === null) return;
+            const degree = prompt('المؤهل / الدرجة:', ed.degree || '');
+            if (degree === null) return;
+            const description = prompt('وصف إضافي (اختياري):', ed.description || '');
+            if (description === null) return;
+
+            data.education[idx] = { date: date.trim(), city: city.trim(), institution: institution.trim(), degree: degree.trim(), description: description.trim() };
+            renderEditorEducation(); renderAll(); saveData();
+        }
+
+        /*******************************
+         * Import / Export / PDF
+         *******************************/
+        document.getElementById('export-json').addEventListener('click', () => {
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url; a.download = (data.name || 'cv') + '.json'; a.click();
+            URL.revokeObjectURL(url);
+        });
+
+        document.getElementById('import-file').addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+                try {
+                    const obj = JSON.parse(ev.target.result);
+                    // basic validation
+                    if (typeof obj !== 'object' || !obj.name) throw new Error('ملف غير صالح');
+                    // ensure arrays exist
+                    obj.skills = Array.isArray(obj.skills) ? obj.skills : [];
+                    obj.languages = Array.isArray(obj.languages) ? obj.languages : [];
+                    obj.experience = Array.isArray(obj.experience) ? obj.experience : [];
+                    obj.education = Array.isArray(obj.education) ? obj.education : [];
+                    data = obj;
+                    saveData();
+                    renderAll();
+                    alert('تم استيراد البيانات بنجاح');
+                } catch (err) {
+                    alert('فشل الاستيراد: ' + err.message);
+                }
+            };
+            reader.readAsText(file, 'utf8');
+            e.target.value = '';
+        });
+
+        // download PDF
+        document.getElementById('download-pdf').addEventListener('click', () => {
+            const element = document.getElementById('cv-to-print');
+            const opt = {
+                margin: [0.2, 0.2, 0.2, 0.2],
+                filename: (data.name ? data.name.replace(/\s+/g, '_') : 'CV') + '.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, useCORS: true },
+                jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+            };
+            html2pdf().from(element).set(opt).save();
+        });
+
+        /*******************************
+         * small utilities & events
+         *******************************/
+        document.getElementById('save-local').addEventListener('click', () => {
+            saveData();
+            alert('تم الحفظ محلياً');
+        });
+
+        document.getElementById('clear-local').addEventListener('click', () => {
+            if (confirm('هل تريد حذف البيانات المحفوظة وإعادة العينة؟')) { clearData(); }
+        });
+
+        document.getElementById('reset-sample').addEventListener('click', () => {
+            if (confirm('استبدال البيانات الحالية بنموذج العينة؟')) resetToSample();
+        });
+
+        // flash save visual feedback
+        function flashSaveBtn() {
+            const btn = document.getElementById('save-local');
+            btn.style.transform = 'scale(0.96)';
+            setTimeout(() => btn.style.transform = '', 120);
+        }
+
+        // initial render
+        renderAll();
+
+        // autosave periodically (also saves after edits)
+        setInterval(() => {
+            saveData();
+        }, 8_000);
+
+        // keyboard shortcut: Ctrl+S to save and Ctrl+E to toggle editor
+        window.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') { e.preventDefault(); saveData(); alert('تم الحفظ'); }
+            if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'e') { e.preventDefault(); toggleEditorBtn.click(); }
+        });
+
+    </script>
+</body>
+
+</html>
